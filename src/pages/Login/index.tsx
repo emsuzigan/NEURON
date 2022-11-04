@@ -10,12 +10,17 @@ export const Login = () => {
 
     const handleLogin = async () => {
         if (cpf && password) {
-            const logado = await auth.login(cpf, password);
-            if(logado) {
+            auth.login(cpf, password).then(() => {
                 navigate('/cadastro')
-            } else {
+            }).catch (() => {
                 alert('CPF ou senha estão incorretos!');
-            }
+            });
+            // const logado = await 
+            // if(logado) {
+            //     navigate('/cadastro')
+            // } else {
+            //     alert('CPF ou senha estão incorretos!');
+            // }
         }
     }
     

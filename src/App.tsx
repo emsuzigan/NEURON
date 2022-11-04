@@ -14,6 +14,7 @@ function App() {
     await auth.logout();
     navigate('/login');
   }
+  console.log(auth.user);
   return (
     <div className="App">
       <header>

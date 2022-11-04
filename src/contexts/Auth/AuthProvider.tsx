@@ -7,26 +7,35 @@ export const AuthProvider = ({children}: {children: JSX.Element}) => {
     const [user, setUser] = useState<User | null>(null);
     const api = useApi();
 
-    useEffect(() => {
-        const validateToken = async () => {
-            const storageData = localStorage.getItem('authToken');
-            if(storageData) {
-                const data = await api.validateToken(storageData);
-                if (data.user) {
-                    setUser(data.user);
-                }
+    // useEffect(() => {
+    //     const validateToken = async () => {
+    //         const storageData = localStorage.getItem('authToken');
+    //         if(storageData) {
+    //             const data = await api.validateToken(storageData);
+    //             if (data.user) {
+    //                 setUser(data.user);
+    //             }
+    //         }
+    //     }
+    //     validateToken();
+    // }, [api]);
+    const login = async (login: string, password: string) => {
+        return api.login(login, password).then((data) => {
+            console.log(data);
+            if (data.data) {
+                setUser(data);
+                setToken(data.data);
+                return true;
             }
-        }
-        validateToken();
-    }, [api]);
-    const login = async (cpf: string, password: string) => {
-        const data = await api.login(cpf, password);
-        if (data.user && data.token) {
-            setUser(data.user);
-            setToken(data.token);
-            return true;
-        }
-        return false;
+            return false;
+        }).finally(() => {
+            return false;
+        })
+        // if (data.user && data.token) {
+        //     setUser(data.user);
+        //     setToken(data.token);
+        //     return true;
+        // }
     }
 
     const logout = async () => {
