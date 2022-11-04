@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {Link, Route, Routes, useNavigate} from 'react-router-dom';
+import { Cadastro } from './pages/Cadastro';
+import { Login } from './pages/Login';
+import { RequireAuth } from './contexts/Auth/RequireAuth';
+import { AuthContext } from './contexts/Auth/AuthContext';
 
 function App() {
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await auth.logout();
+    navigate('/login');
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>PHILIPS</h1>
+        {auth.user && <button onClick={handleLogout}>Sair</button>}
       </header>
+      <Routes>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/cadastro" element={<RequireAuth><Cadastro /></RequireAuth>}/>
+      </Routes>
     </div>
   );
 }
