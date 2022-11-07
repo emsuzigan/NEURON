@@ -27,8 +27,7 @@ export const ClientService = {
   },
 
   create: (client: Client, token: string | null) => {
-    return axiosInstace.post("/clientes", {
-      body: client,
+    return axiosInstace.post("/clientes", client, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -36,8 +35,7 @@ export const ClientService = {
   },
 
   update: (id: number, client: Client, token: string | null) => {
-    return axiosInstace.put(`/clientes/${id}`, {
-      body: client,
+    return axiosInstace.put(`/clientes/${id}`, client, {
       headers: {
         Authorization: `Bearer ${token}`
       }
