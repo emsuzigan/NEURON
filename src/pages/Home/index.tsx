@@ -61,7 +61,7 @@ export const Home = () => {
   return (
     <Container style={{ marginTop: "2rem" }}>
       <Box sx={{display: 'flex', marginBottom: '2rem', justifyContent: 'flex-end'}}>
-        <Button style={{ marginTop: "2rem" }} variant="contained" startIcon={<AddCircleIcon />}>
+        <Button style={{ marginTop: "2rem" }} onClick={() => navigate('/cadastro')} variant="contained" startIcon={<AddCircleIcon />}>
           Novo
         </Button>
       </Box>
