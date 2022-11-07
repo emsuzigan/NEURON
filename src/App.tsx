@@ -22,7 +22,7 @@ function App() {
         {auth.user && <button onClick={handleLogout}>Sair</button>}
       </header>
       <Routes>
-        <Route path="/login" element={<Login />}/>
+        <Route path="/" element={<Login />}/>
         <Route path="/cadastro" element={<RequireAuth><Cadastro /></RequireAuth>}/>
       </Routes>
     </div>
