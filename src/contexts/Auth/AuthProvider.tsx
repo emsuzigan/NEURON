@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useApi } from "../../hooks/useApi";
 import { User } from "../../types/user"
 import { AuthContext } from "./AuthContext"
@@ -9,7 +9,6 @@ export const AuthProvider = ({children}: {children: JSX.Element}) => {
     
     const login = async (login: string, password: string) => {
         return api.login(login, password).then((data) => {
-            console.log(data);
             if (data.data) {
                 setUser(data);
                 setToken(data.data);

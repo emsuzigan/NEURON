@@ -11,7 +11,7 @@ export const Login = () => {
     const handleLogin = async () => {
         if (cpf && password) {
             auth.login(cpf, password).then(() => {
-                navigate('/cadastro')
+                navigate('/inicio')
             }).catch (() => {
                 alert('CPF ou senha estão incorretos!');
             });
