@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
@@ -14,9 +13,9 @@ export const Login = () => {
         console.log('Login');
         if (cpf && password) {
             auth.login(cpf, password).then(() => {
-                navigate('/cadastro')
-            }).catch(() => {
-                alert('Usuario ou senha estão incorretos!');
+                navigate('/inicio')
+            }).catch (() => {
+                alert('CPF ou senha estão incorretos!');
             });
         }
     }

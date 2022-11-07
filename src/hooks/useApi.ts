@@ -1,15 +1,11 @@
-import axios from 'axios';
-
-const api = axios.create({
-    baseURL: process.env.REACT_APP_API
-});
+import { axiosInstace } from '../core/axiosInstance';
 
 export const useApi = () => ({
     validateToken: async (token: string) => {
         // return {
         //     user: {id:2, name: 'Eduardo', cpf: '483.439.988-55'},
         // };
-        const response = await api.post('/validate', {token});
+        const response = await axiosInstace.post('/validate', {token});
         return response.data;
     },
     login: async (cpf: string, password: string) => {
@@ -17,14 +13,14 @@ export const useApi = () => ({
         //     user: {id:2, name: 'Eduardo', cpf: '483.439.988-55'},
         //     token: '123456789'
         // };
-        const response = await api.post('usuarios/login', {login: cpf, password});
+        const response = await axiosInstace.post('usuarios/login', {login: cpf, password});
         return response.data;
     },
     logout: async () => {
         // return {
         //     status: true 
         // };
-        const response = await api.post('/logout');
+        const response = await axiosInstace.post('/logout');
         return response.data;
-    }
+    },
 });
