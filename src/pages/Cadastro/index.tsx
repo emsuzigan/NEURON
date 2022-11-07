@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import DatePicker from "react-datepicker";
-import Calendar from 'react-calendar';
 import Datetime from 'react-datetime';
+import AdressList from '../../components/AdressList';
+
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-calendar/dist/Calendar.css';
 import "react-datetime/css/react-datetime.css";
@@ -36,9 +36,8 @@ export const Cadastro = () => {
                         </label>
                     </div>
                     <div>
-                        <label>
-                            Endereços: <input type="text" name="birthdate" />
-                        </label>
+                        Endereço(s):
+                        <AdressList/>
                     </div>
                 </form>
             </div>
