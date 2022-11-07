@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { ClientService } from "../../services/ClientService";
 import { Client } from "../../types/client";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import './style.css'
 import { useNavigate } from "react-router-dom";
 import { CTable } from "../../components/CTable";
 import { CDialog } from "../../components/CDialog";
@@ -12,7 +11,7 @@ export const Home = () => {
   const navigate = useNavigate();
   const [dialog, setDialog] = useState(false);
   const [clients, setClients] = useState<Client[]>([]);
-  const [clientSelected, setClientSelected] = useState();
+  const [clientSelected, setClientSelected] = useState<number | null>();
 
   useEffect(() => {
     fetchClients();
@@ -20,7 +19,7 @@ export const Home = () => {
 
   const closeDialog = (value: boolean) => {
     setDialog(false)
-    if (value) {
+    if (value && clientSelected !== null) {
       const token = localStorage.getItem("authToken")
 
       ClientService.delete(clientSelected, token)
@@ -31,6 +30,8 @@ export const Home = () => {
           console.error("Erro ao buscar clientes")
         })
     }
+
+    setClientSelected(null)
   };
 
 
@@ -59,8 +60,7 @@ export const Home = () => {
 
   return (
     <Container style={{ marginTop: "2rem" }}>
-      {clientSelected}
-      <Box sx={{ marginBottom: '2rem' }}>
+      <Box sx={{display: 'flex', marginBottom: '2rem', justifyContent: 'flex-end'}}>
         <Button style={{ marginTop: "2rem" }} variant="contained" startIcon={<AddCircleIcon />}>
           Novo
         </Button>
