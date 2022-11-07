@@ -23,7 +23,6 @@ export const AuthProvider = ({children}: {children: JSX.Element}) => {
     const logout = async () => {
         setUser(null);
         setToken('');
-        await api.logout();
     }
 
     const setToken = (token: string) => {
