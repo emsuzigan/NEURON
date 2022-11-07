@@ -1,41 +1,87 @@
 import React, { useState } from "react";
-
-import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
+import Item from "./Item";
 
 interface NewAdress {
   id: number;
-  address: string;
+  rua: string;
+  cidade: string;
+  bairro: string;
+  numero: string;
+  cep: string;
 };
 
 const AdressList :React.FC = ()  => {
-    const { register, control, handleSubmit, reset, trigger, setError } = useForm({
-      // defaultValues: {}; you can populate the fields by this attribute 
-    });
+  
+  //const [adress, setAdress   ] = useState<string>("");
+  
+  const [rua   , setRua   ] = useState<string>("");
+  const [cidade, setCidade] = useState<string>("");
+  const [bairro, setBairro] = useState<string>("");
+  const [numero, setNumero] = useState<string>("");
+  const [cep   , setCep   ] = useState<string>("");
 
-    const { fields, append, remove } = useFieldArray({
-      control,
-      name: "test"
-    });
+  const [list, setList] = useState<NewAdress[]>([]);
 
-    const [address, setAddress] = useState<string>("");
-    const [list, setList] = useState<NewAdress[]>([]);
+  const handleSubmit = (e:any) => {
+    const newAdress = {
+      id: Math.random(),
+      rua:    rua   ,
+      cidade: cidade,
+      bairro: bairro,
+      numero: numero,
+      cep:    cep   ,
+    };
+    if (rua    && rua.length <= 25    ) { setList([...list, newAdress]); setRua(""); }
+    if (cidade && cidade.length <= 25 ) { setList([...list, newAdress]); setCidade(""); }
+    if (bairro && bairro.length <= 25 ) { setList([...list, newAdress]); setBairro(""); }
+    if (numero && numero.length <= 25 ) { setList([...list, newAdress]); setNumero(""); }
+    if (cep    && cep.length <= 25    ) { setList([...list, newAdress]); setCep(""); }
+    
+  };
 
+  const remove = (id:number): void => {
+    setList(list.filter((el) => el.id !== id));
+  };
 
-    return(
+  const handleChangeRua    = (e:React.ChangeEvent<HTMLInputElement>) => { setRua   (e.target.value); };
+  const handleChangeCidade = (e:React.ChangeEvent<HTMLInputElement>) => { setCidade(e.target.value); };
+  const handleChangeBairro = (e:React.ChangeEvent<HTMLInputElement>) => { setBairro(e.target.value); };
+  const handleChangeNumero = (e:React.ChangeEvent<HTMLInputElement>) => { setNumero(e.target.value); };
+  const handleChangeCep    = (e:React.ChangeEvent<HTMLInputElement>) => { setCep   (e.target.value); };
+
+  return(
+    <div>
+      <form>
+      <input className="input" type="text" value={rua   } placeholder="Enter the items" onChange={handleChangeRua   } />
+      <input className="input" type="text" value={cidade} placeholder="Enter the items" onChange={handleChangeCidade} />
+      <input className="input" type="text" value={bairro} placeholder="Enter the items" onChange={handleChangeBairro} />
+      <input className="input" type="text" value={numero} placeholder="Enter the items" onChange={handleChangeNumero} />
+      <input className="input" type="text" value={cep   } placeholder="Enter the items" onChange={handleChangeCep   } />
+
+        <button className="btn" type="button" onClick={handleSubmit}>
+          Add Items
+        </button>
+      </form>
       <div>
-        <form>
-        {fields.map((item, index) => ( 
-          <li key={item.id}>
-            Endereço: <input {...register(`test.${index}.address`)}/>
-            <button type="button" onClick={() => remove(index)}>Delete</button>
-          </li>
-          ))}
-          <button type="button" onClick={() => append({ address: "" })}>
-                adicionar
-          </button>
-        </form>
+        {list.map((c, id) => (
+          <Item key={id}
+                id={c.id}
+                rua={c.rua}
+                cidade={c.cidade}
+                bairro={c.bairro}
+                numero={c.numero}
+                cep={c.cep}
+                remove={remove}
+                />
+        ) )}
       </div>
-    )
+    </div>
+  )
 }
 
 export default AdressList;
+
+
+
+
+
