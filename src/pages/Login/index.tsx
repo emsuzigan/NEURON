@@ -15,12 +15,6 @@ export const Login = () => {
             }).catch (() => {
                 alert('CPF ou senha estão incorretos!');
             });
-            // const logado = await 
-            // if(logado) {
-            //     navigate('/cadastro')
-            // } else {
-            //     alert('CPF ou senha estão incorretos!');
-            // }
         }
     }
     

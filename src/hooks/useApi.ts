@@ -17,7 +17,7 @@ export const useApi = () => ({
         //     user: {id:2, name: 'Eduardo', cpf: '483.439.988-55'},
         //     token: '123456789'
         // };
-        const response = await api.post('usuarios/login', {login: cpf, senha: password});
+        const response = await api.post('usuarios/login', {login: cpf, password});
         return response.data;
     },
     logout: async () => {
