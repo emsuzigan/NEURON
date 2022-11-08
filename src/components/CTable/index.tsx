@@ -12,6 +12,7 @@ import { formatDate } from '../../utils/formatDate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { Tooltip } from '@mui/material';
 
 type CTableProps = {
   clients: Client[],
@@ -45,22 +46,22 @@ export function CTable({ clients, remove, view, update }: CTableProps) {
             <TableCell align="center">{dashOnNull(client.cpf)}</TableCell>
             <TableCell align="center">{formatDate(client.birthDate)}</TableCell>
             <TableCell align="center">
-              <IconButton onClick={() => remove(client.id)} color="error" aria-label="remover cliente">
-                <DeleteIcon />
-              </IconButton>
+              <Tooltip title="Remover" placement='left' arrow>
+                <IconButton onClick={() => remove(client.id)} color="error" aria-label="remover cliente">
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
 
-              <IconButton onClick={() => update(client.id)} color="warning" aria-label="editar cliente">
-                <EditIcon />
-              </IconButton>
-
-              <IconButton onClick={() => view(client.id)} color="primary" aria-label="visualizar cliente">
-                <RemoveRedEyeIcon />
-              </IconButton>
+              <Tooltip title="Editar" placement='right' arrow>
+                <IconButton onClick={() => update(client.id)} color="warning" aria-label="editar cliente">
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
             </TableCell>
           </TableRow>
-        )): <TableRow><TableCell colSpan={5} align="center">Nenhum cliente cadastrado</TableCell></TableRow>}
+        )) : <TableRow><TableCell colSpan={5} align="center">Nenhum cliente cadastrado</TableCell></TableRow>}
 
-        
+
       </TableBody>
     </Table>
   </TableContainer>
