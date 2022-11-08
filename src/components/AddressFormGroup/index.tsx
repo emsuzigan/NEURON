@@ -98,7 +98,7 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
         </Grid>
 
         <Button disabled={addressFieldsIsValid()} sx={{ m: 2 }} variant="contained" color={'primary'} className="btn" type="button" onClick={handleSubmit}>
-          Novo Endereço
+          Adicionar Endereço
         </Button>
       </Grid>
       {adresses.map((c: any, id: any) => (
