@@ -1,4 +1,4 @@
-import { Button, Container, Box } from "@mui/material";
+import { Button, Container, Box, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ClientService } from "../../services/ClientService";
 import { Client } from "../../types/client";
@@ -12,6 +12,7 @@ export const Home = () => {
   const [dialog, setDialog] = useState(false);
   const [clients, setClients] = useState<Client[]>([]);
   const [clientSelected, setClientSelected] = useState<number | null>();
+  const [loading, isLoading] = useState(true);
 
   useEffect(() => {
     fetchClients();
@@ -24,6 +25,7 @@ export const Home = () => {
 
       ClientService.delete(clientSelected, token)
         .then((response) => {
+          
           fetchClients()
         })
         .catch((error: any) => {
@@ -41,6 +43,7 @@ export const Home = () => {
 
     ClientService.list(token)
       .then((response) => {
+        isLoading(false)
         setClients(response.data.data);
       })
       .catch((error: any) => {
@@ -66,10 +69,10 @@ export const Home = () => {
         </Button>
       </Box>
       <Box>
-        <CTable remove={(id: any) => {
+        {loading ? <><Skeleton /><Skeleton /><Skeleton /></> : <CTable remove={(id: any) => {
           setDialog(true)
           setClientSelected(id)
-        }} update={update} view={view} clients={clients} />
+        }} update={update} view={view} clients={clients} />}
       </Box>
 
       <CDialog
