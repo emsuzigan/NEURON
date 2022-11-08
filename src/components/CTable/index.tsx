@@ -44,7 +44,7 @@ export function CTable({ clients, remove, view, update }: CTableProps) {
               {client.name === null && client.lastName === null ? '-' : `${client.name} ${client.lastName}`}
             </TableCell>
             <TableCell align="center">{dashOnNull(client.cpf)}</TableCell>
-            <TableCell align="center">{formatDate(client.birthDate)}</TableCell>
+            <TableCell align="center">{formatDate(client.birthDate ?? "")}</TableCell>
             <TableCell align="center">
               <Tooltip title="Remover" placement='left' arrow>
                 <IconButton onClick={() => remove(client.id)} color="error" aria-label="remover cliente">

@@ -5,6 +5,6 @@ export type Client = {
   name: string,
   lastName: string,
   cpf: string,
-  birthDate: string,
+  birthDate: null | string,
   adresses: Address[];
 }

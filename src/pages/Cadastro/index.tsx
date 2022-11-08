@@ -13,7 +13,7 @@ const initialState = {
 	name: "",
 	lastName: "",
 	cpf: "",
-	birthDate: "",
+	birthDate: null,
 	adresses: []
 }
 
@@ -85,7 +85,7 @@ export const Cadastro = () => {
 						onChange={(birthDate: any) => {
 							setClient({ ...client, birthDate });
 						}}
-						renderInput={(params: any) => <TextField fullWidth sx={{ m: 1, mt: 1.5 }} {...params} />}
+						renderInput={(params: any) => <TextField noValidate fullWidth sx={{ m: 1, mt: 1.5 }} {...params} />}
 					/>
 
 					<AddressFormGroup adresses={list} removeAddress={(id) => {
