@@ -54,7 +54,10 @@ export const Atualizar = () => {
 				toast.success("Cliente atualizado com sucesso!")
 				navigate('/inicio')
 			}).catch((error) => {
-				toast.error("Erro ao tentar atualizar Cliente")
+				if (error.response.status === 400) {
+					return toast.error("Ja existe um Cliente cadastrado com esse CPF")
+				}
+				return toast.error("Error desconhecido contate o Administrador")
 			})
 	};
 

@@ -26,7 +26,7 @@ export const Cadastro = () => {
 
 	const handleSubmit = (e: any) => {
 		const token = localStorage.getItem("authToken")
-		ClientService.create({ ...client, adresses: list }, token).then((response) => {
+		ClientService.create({ ...client, adresses: list, cpf: client.cpf.replaceAll(".", "").replaceAll("-", "") }, token).then((response) => {
 			toast.success("Cliente cadastrado com sucesso!")
 			setList([])
 			setClient(initialState)
