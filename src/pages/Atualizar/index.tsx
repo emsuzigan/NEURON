@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { Address } from '../../types/address'
 
 import { ClientService } from '../../services/ClientService';
-import { Box, Container, TextField, InputLabel, FormControl, OutlinedInput, Button, Grid } from '@mui/material';
+import { Box, Container, TextField, InputLabel, FormControl, OutlinedInput, Button, Grid, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AddressFormGroup } from '../../components/AddressFormGroup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from 'react-router-dom';
 import DateFns from '@date-io/date-fns'
-import { Client } from '../../types/client';
+import { toast } from "react-toastify";
 
 export const Atualizar = () => {
 	const dateFns = new DateFns()
@@ -49,10 +49,13 @@ export const Atualizar = () => {
 		}
 
 		const token = localStorage.getItem("authToken")
-		console.log(list)
-		ClientService.update(id, { ...client, adresses: list, birthDate: dateFns.formatByString(new Date(client.birthDate), 'yyyy-MM-dd') }, token).then((response) => {
-			navigate('/inicio')
-		})
+		ClientService.update(id, { ...client, adresses: list, birthDate: dateFns.formatByString(new Date(client.birthDate), 'yyyy-MM-dd') }, token)
+			.then((response) => {
+				toast.success("Cliente atualizado com sucesso!")
+				navigate('/inicio')
+			}).catch((error) => {
+				toast.error("Erro ao tentar atualizar Cliente")
+			})
 	};
 
 	return (

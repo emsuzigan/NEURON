@@ -6,6 +6,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from "react-router-dom";
 import { CTable } from "../../components/CTable";
 import { CDialog } from "../../components/CDialog";
+import { toast } from "react-toastify";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -25,11 +26,11 @@ export const Home = () => {
 
       ClientService.delete(clientSelected, token)
         .then((response) => {
-          
+          toast.success("Cliente removido com sucesso!")
           fetchClients()
         })
         .catch((error: any) => {
-          console.error("Erro ao buscar clientes")
+          toast.success("Não foi possivel remover o cliente")
         })
     }
 
@@ -47,7 +48,8 @@ export const Home = () => {
         setClients(response.data.data);
       })
       .catch((error: any) => {
-        console.error("Erro ao buscar clientes")
+        toast("Erro interno.");
+
       })
   }
 
@@ -81,6 +83,8 @@ export const Home = () => {
         open={dialog}
         onClose={closeDialog}
       />
+
+
     </Container>
   );
 }
