@@ -9,6 +9,7 @@ import { AddressFormGroup } from '../../components/AddressFormGroup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
+import { CPFMask } from '../../components/CPFMask';
 
 const initialState = {
 	name: "",
@@ -82,6 +83,7 @@ export const Cadastro = () => {
 							label="CPF"
 							value={client.cpf}
 							onChange={(event) => setClient({ ...client, cpf: event.target.value })}
+							inputComponent={CPFMask as any}
 						/>
 					</FormControl>
 

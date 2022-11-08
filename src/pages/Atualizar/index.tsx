@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Address } from '../../types/address'
 
 import { ClientService } from '../../services/ClientService';
-import { Box, Container, TextField, InputLabel, FormControl, OutlinedInput, Button, Grid, Typography } from '@mui/material';
+import { Box, Container, TextField, InputLabel, FormControl, OutlinedInput, Button, Grid } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AddressFormGroup } from '../../components/AddressFormGroup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -27,7 +27,7 @@ export const Atualizar = () => {
 
 	useEffect(() => {
 		fetchClientById(id)
-	}, [id])
+	}, [])
 
 	function fetchClientById(id: any) {
 		if (!id) {

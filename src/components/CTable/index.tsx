@@ -11,7 +11,6 @@ import { dashOnNull } from '../../utils/dashOnNull';
 import { formatDate } from '../../utils/formatDate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Tooltip } from '@mui/material';
 
 type CTableProps = {
