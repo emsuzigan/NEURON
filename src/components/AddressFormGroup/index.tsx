@@ -1,5 +1,5 @@
-import { Alert, Box, Button, FormControl, Grid, InputLabel, OutlinedInput } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Button, FormControl, Grid, InputLabel, OutlinedInput } from "@mui/material";
+import { useState } from "react";
 import { Address } from "../../types/address";
 import { AddressItem } from "./AddressItem";
 
@@ -32,7 +32,7 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
 
   return (
     <div>
-      <Grid sx={{ mt: 2 }} container spacing={1} component={'form'}>
+      <Grid sx={{ mt: 2 }} container spacing={1}>
         <Grid item md={12} sm={12}>
           <FormControl fullWidth sx={{ m: 1 }}>
             <InputLabel htmlFor="outlined-adornment-amount">CEP</InputLabel>
