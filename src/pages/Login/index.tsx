@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import './style.css';
+import { toast } from 'react-toastify';
 
 export const Login = () => {
   const auth = useContext(AuthContext);
@@ -15,9 +16,13 @@ export const Login = () => {
     if (cpf && password) {
       isValid(false)
       auth.login(cpf, password).then(() => {
+        toast.success("Login realizado com sucesso")
         navigate('/inicio')
-      }).catch(() => {
-        alert('CPF ou senha estão incorretos!');
+      }).catch((error) => {
+        const status = error.response.status
+        if (status === 404) {
+          toast.error("Credenciais invalidas")
+        }
       });
     } else {
       isValid(true)

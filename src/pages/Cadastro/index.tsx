@@ -8,12 +8,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AddressFormGroup } from '../../components/AddressFormGroup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 const initialState = {
 	name: "",
 	lastName: "",
 	cpf: "",
-	birthDate: "",
+	birthDate: null,
 	adresses: []
 }
 
@@ -26,8 +27,14 @@ export const Cadastro = () => {
 	const handleSubmit = (e: any) => {
 		const token = localStorage.getItem("authToken")
 		ClientService.create({ ...client, adresses: list }, token).then((response) => {
+			toast.success("Cliente cadastrado com sucesso!")
 			setList([])
 			setClient(initialState)
+		}).catch((error) => {
+			if (error.response.status === 400) {
+				return toast.error("Ja existe um Cliente cadastrado com esse CPF")
+			}
+			return toast.error("Error desconhecido contate o Administrador")
 		})
 	};
 
@@ -85,7 +92,7 @@ export const Cadastro = () => {
 						onChange={(birthDate: any) => {
 							setClient({ ...client, birthDate });
 						}}
-						renderInput={(params: any) => <TextField fullWidth sx={{ m: 1, mt: 1.5 }} {...params} />}
+						renderInput={(params: any) => <TextField noValidate fullWidth sx={{ m: 1, mt: 1.5 }} {...params} />}
 					/>
 
 					<AddressFormGroup adresses={list} removeAddress={(id) => {

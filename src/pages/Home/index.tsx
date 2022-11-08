@@ -1,4 +1,4 @@
-import { Button, Container, Box } from "@mui/material";
+import { Button, Container, Box, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ClientService } from "../../services/ClientService";
 import { Client } from "../../types/client";
@@ -6,12 +6,14 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from "react-router-dom";
 import { CTable } from "../../components/CTable";
 import { CDialog } from "../../components/CDialog";
+import { toast } from "react-toastify";
 
 export const Home = () => {
   const navigate = useNavigate();
   const [dialog, setDialog] = useState(false);
   const [clients, setClients] = useState<Client[]>([]);
   const [clientSelected, setClientSelected] = useState<number | null>();
+  const [loading, isLoading] = useState(true);
 
   useEffect(() => {
     fetchClients();
@@ -24,10 +26,11 @@ export const Home = () => {
 
       ClientService.delete(clientSelected, token)
         .then((response) => {
+          toast.success("Cliente removido com sucesso!")
           fetchClients()
         })
         .catch((error: any) => {
-          console.error("Erro ao buscar clientes")
+          toast.success("Não foi possivel remover o cliente")
         })
     }
 
@@ -41,10 +44,12 @@ export const Home = () => {
 
     ClientService.list(token)
       .then((response) => {
+        isLoading(false)
         setClients(response.data.data);
       })
       .catch((error: any) => {
-        console.error("Erro ao buscar clientes")
+        toast("Erro interno.");
+
       })
   }
 
@@ -66,10 +71,10 @@ export const Home = () => {
         </Button>
       </Box>
       <Box>
-        <CTable remove={(id: any) => {
+        {loading ? <><Skeleton /><Skeleton /><Skeleton /></> : <CTable remove={(id: any) => {
           setDialog(true)
           setClientSelected(id)
-        }} update={update} view={view} clients={clients} />
+        }} update={update} view={view} clients={clients} />}
       </Box>
 
       <CDialog
@@ -78,6 +83,8 @@ export const Home = () => {
         open={dialog}
         onClose={closeDialog}
       />
+
+
     </Container>
   );
 }
