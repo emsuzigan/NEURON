@@ -24,7 +24,7 @@ export const Home = () => {
 
       ClientService.delete(clientSelected, token)
         .then((response) => {
-           fetchClients()
+          fetchClients()
         })
         .catch((error: any) => {
           console.error("Erro ao buscar clientes")
@@ -60,15 +60,15 @@ export const Home = () => {
 
   return (
     <Container style={{ marginTop: "2rem" }}>
-      <Box sx={{display: 'flex', marginBottom: '2rem', justifyContent: 'flex-end'}}>
+      <Box sx={{ display: 'flex', marginBottom: '2rem', justifyContent: 'flex-end' }}>
         <Button style={{ marginTop: "2rem" }} onClick={() => navigate('/cadastro')} variant="contained" startIcon={<AddCircleIcon />}>
-          Novo
+          Novo Cliente
         </Button>
       </Box>
       <Box>
         <CTable remove={(id: any) => {
-           setDialog(true)
-           setClientSelected(id)
+          setDialog(true)
+          setClientSelected(id)
         }} update={update} view={view} clients={clients} />
       </Box>
 

@@ -1,83 +1,105 @@
-import React, { useState } from 'react';
-import Datetime from 'react-datetime';
-import AdressList from '../../components/AdressList';
+import { useState } from 'react';
 
-import {Address} from '../../types/address'
+import { Address } from '../../types/address'
 
-import "react-datepicker/dist/react-datepicker.css";
-import 'react-calendar/dist/Calendar.css';
-import "react-datetime/css/react-datetime.css";
-import { ClientRequest } from 'http';
-import { format } from 'path';
 import { ClientService } from '../../services/ClientService';
+import { Box, Container, TextField, InputLabel, FormControl, OutlinedInput, Button, Grid } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AddressFormGroup } from '../../components/AddressFormGroup';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
 
-//import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-interface NewAdress {
-    name: string,
-    lastName: string,
-    cpf: string,
-    birthDate: string,
-    adresses?: Address[];
-  };
-
-  const formatDate = (date: Date) => {
-    return `${date.getFullYear()}-${(date.getMonth() < 9 ? '0': '') + date.getMonth()}-${(date.getDay() < 9 ? '0': '') + date.getDay()}`
-  }
+const initialState = {
+	name: "",
+	lastName: "",
+	cpf: "",
+	birthDate: "",
+	adresses: []
+}
 
 export const Cadastro = () => {
-    
-    //const [startDate, setStartDate] = useState(new Date());
-    const [value, onChange] = useState(new Date());
-    const [client, setClient ] = useState({name: "",
-                                           lastName: "",
-                                           cpf: "",
-                                           birthDate: "",
-                                           adresses: []});
-    
-    const [list, setList] = useState<Address[]>([]);
+	const navigate = useNavigate()
 
-    const handleSubmit = (e:any) => {
-        const token = localStorage.getItem("authToken")
-        console.log(token)
-        ClientService.create({ ...client, adresses:list}, token).then((response) => { console.log(response)} )
-    };
-    
-    return (
-        <div>
-            <div>Cadastro</div>
+	const [client, setClient] = useState(initialState);
+	const [list, setList] = useState<Address[]>([]);
 
-            <div>
-                <form>
-                    <div>
-                        <label>
-                            Nome: <input type="text" name="name" value={client.name} onChange={(event) => setClient({ ...client, name:event.target.value })}/>
-                        </label>
-                        
-                        <label>
-                            Sobrenome: <input type="text" name="lastname" value={client.lastName} onChange={(event) => setClient({ ...client, lastName:event.target.value })}/>
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            CPF: <input type="text" name="cpf" value={client.cpf} onChange={(event) => setClient({ ...client, cpf:event.target.value })}/>
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            Birthdate: <Datetime dateFormat="YY-MM-DD" timeFormat={false} onChange={(event) => setClient({...client, birthDate:formatDate(new Date(event.toString())) })}/>
-                        </label>
-                    </div>
-                    <div>
-                        Endereço(s):
-                        <AdressList address={list} addAddress={(address:any) => setList([ ...list, address ]) }/>
-                    </div>
-                </form>
+	const handleSubmit = (e: any) => {
+		const token = localStorage.getItem("authToken")
+		ClientService.create({ ...client, adresses: list }, token).then((response) => {
+			setList([])
+			setClient(initialState)
+		})
+	};
 
-                <button className="btn" type="button" onClick={handleSubmit}>
-                    Add Client
-                </button>
-            </div>
-            
-        </div>
-    );
+	return (
+		<Container sx={{ pb: 5 }}>
+			<Box sx={{ mt: 8, mb: 5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+				<h1>Cadastro</h1>
+				<Button onClick={() => navigate('/inicio')} variant="outlined" startIcon={<ArrowBackIcon />}>
+					Voltar
+				</Button>
+			</Box>
+			<form>
+				<Box sx={{ boxShadow: '0px 0px 0px 2px rgba(0,0,0,.09)', backgroundColor: '#fff', padding: '2rem', borderRadius: '.5rem' }} >
+					<Grid container spacing={1}>
+						<Grid item md={6} sm={12}>
+							<FormControl fullWidth sx={{ m: 1 }}>
+								<InputLabel htmlFor="outlined-adornment-amount">Nome</InputLabel>
+								<OutlinedInput
+									id="outlined-adornment-amount"
+									label="Nome"
+									value={client.name}
+									onChange={(event) => setClient({ ...client, name: event.target.value })}
+								/>
+							</FormControl>
+
+						</Grid>
+						<Grid item md={6} sm={12}>
+							<FormControl fullWidth sx={{ m: 1 }}>
+								<InputLabel htmlFor="outlined-adornment-amount">Sobrenome</InputLabel>
+								<OutlinedInput
+									id="outlined-adornment-amount"
+									label="Sobrenome"
+									value={client.lastName}
+									onChange={(event) => setClient({ ...client, lastName: event.target.value })}
+								/>
+							</FormControl>
+						</Grid>
+
+					</Grid>
+
+					<FormControl fullWidth sx={{ m: 1 }}>
+						<InputLabel htmlFor="outlined-adornment-amount">CPF</InputLabel>
+						<OutlinedInput
+							id="outlined-adornment-amount"
+							label="CPF"
+							value={client.cpf}
+							onChange={(event) => setClient({ ...client, cpf: event.target.value })}
+						/>
+					</FormControl>
+
+					<DatePicker
+
+						label="Data Nascimento"
+						value={client.birthDate}
+						onChange={(birthDate: any) => {
+							setClient({ ...client, birthDate });
+						}}
+						renderInput={(params: any) => <TextField fullWidth sx={{ m: 1, mt: 1.5 }} {...params} />}
+					/>
+
+					<AddressFormGroup adresses={list} removeAddress={(id) => {
+						const newList = list.filter((_, index) => index !== id)
+						setList(newList)
+					}} addAddress={(address: any) => setList([...list, address])} />
+
+					<Box sx={{ m: 1, display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+						<Button sx={{ m: 1 }} size='large' variant="contained" color={'success'} className="btn" type="button" onClick={handleSubmit}>
+							Cadastrar Cliente
+						</Button>
+					</Box>
+				</Box>
+			</form>
+		</Container>
+	);
 }
