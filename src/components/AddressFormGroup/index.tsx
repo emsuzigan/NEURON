@@ -56,9 +56,9 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
       <Grid sx={{ mt: 2 }} container spacing={1}>
         <Grid item xs={12}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">CEP</InputLabel>
+            <InputLabel htmlFor="cep">CEP</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="cep"
               label="CEP"
               defaultValue={""}
               onBlur={getAddressByCep}
@@ -69,9 +69,9 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
         </Grid>
         <Grid item xs={8}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Rua</InputLabel>
+            <InputLabel htmlFor="street">Rua</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="street"
               label="Rua"
               defaultValue={""}
               value={address.street}
@@ -82,9 +82,9 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
 
         <Grid item xs={4}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Número</InputLabel>
+            <InputLabel htmlFor="number">Número</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="number"
               label="Número"
               defaultValue={""}
               value={address.number}
@@ -95,9 +95,9 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
 
         <Grid item xs={12} md={6}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Bairro</InputLabel>
+            <InputLabel htmlFor="neighborhood">Bairro</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="neighborhood"
               label="Bairro"
               defaultValue={""}
               value={address.neighborhood}
@@ -108,9 +108,9 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
 
         <Grid item xs={12} md={6}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Cidade</InputLabel>
+            <InputLabel htmlFor="city">Cidade</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="city"
               label="Cidade"
               defaultValue={""}
               value={address.city}

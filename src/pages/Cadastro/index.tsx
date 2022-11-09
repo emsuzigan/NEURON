@@ -54,9 +54,9 @@ export const Cadastro = () => {
 				<Grid container spacing={1}>
 					<Grid item xs={12} md={6}>
 						<FormControl fullWidth sx={{ m: 1 }}>
-							<InputLabel htmlFor="outlined-adornment-amount">Nome</InputLabel>
+							<InputLabel htmlFor="name">Nome</InputLabel>
 							<OutlinedInput
-								id="outlined-adornment-amount"
+								id="name"
 								label="Nome"
 								value={client.name}
 								onChange={(event) => setClient({ ...client, name: event.target.value })}
@@ -66,9 +66,9 @@ export const Cadastro = () => {
 					</Grid>
 					<Grid item xs={12} md={6}>
 						<FormControl fullWidth sx={{ m: 1 }}>
-							<InputLabel htmlFor="outlined-adornment-amount">Sobrenome</InputLabel>
+							<InputLabel htmlFor="lastName">Sobrenome</InputLabel>
 							<OutlinedInput
-								id="outlined-adornment-amount"
+								id="lastName"
 								label="Sobrenome"
 								value={client.lastName}
 								onChange={(event) => setClient({ ...client, lastName: event.target.value })}
@@ -79,9 +79,9 @@ export const Cadastro = () => {
 				</Grid>
 
 				<FormControl fullWidth sx={{ m: 1 }}>
-					<InputLabel htmlFor="outlined-adornment-amount">CPF</InputLabel>
+					<InputLabel htmlFor="cpf">CPF</InputLabel>
 					<OutlinedInput
-						id="outlined-adornment-amount"
+						id="cpf"
 						label="CPF"
 						value={client.cpf}
 						onChange={(event) => setClient({ ...client, cpf: event.target.value })}
@@ -90,12 +90,13 @@ export const Cadastro = () => {
 				</FormControl>
 
 				<DatePicker
-					label="Data Nascimento"
+					label="Data de Nascimento"
 					value={client.birthDate}
+					inputFormat={'dd/MM/yyyy'}
 					onChange={(birthDate: any) => {
 						setClient({ ...client, birthDate });
 					}}
-					renderInput={(params: any) => <TextField noValidate fullWidth sx={{ m: 1, mt: 1.5 }} {...params} />}
+					renderInput={(params: any) => <TextField id="birthDate" noValidate fullWidth sx={{ m: 1, mt: 1.5 }} {...params} />}
 				/>
 
 				<AddressFormGroup adresses={adresses} removeAddress={(id) => {
