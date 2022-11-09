@@ -1,29 +1,32 @@
 import { useEffect, useState } from 'react';
 
-import { Address } from '../../types/address'
-
-import { ClientService } from '../../services/ClientService';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from "react-toastify";
 import { Box, Container, TextField, InputLabel, FormControl, OutlinedInput, Button, Grid } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AddressFormGroup } from '../../components/AddressFormGroup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate, useParams } from 'react-router-dom';
 import DateFns from '@date-io/date-fns'
-import { toast } from "react-toastify";
+
+import { Address } from '../../types/address'
+import { ClientService } from '../../services/ClientService';
+import { AddressFormGroup } from '../../components/AddressFormGroup';
+import { CPFMask } from '../../components/CPFMask';
+
+
+const dateFns = new DateFns()
+const initialClientState = {
+	name: "",
+	lastName: "",
+	cpf: "",
+	birthDate: "",
+	adresses: []
+}
 
 export const Atualizar = () => {
-	const dateFns = new DateFns()
 	const navigate = useNavigate()
 	const { id } = useParams();
-	const [client, setClient] = useState({
-		name: "",
-		lastName: "",
-		cpf: "",
-		birthDate: "",
-		adresses: []
-	});
-	const [list, setList] = useState<Address[]>([]);
-
+	const [client, setClient] = useState(initialClientState);
+	const [adresses, setAdresses] = useState<Address[]>([]);
 
 	useEffect(() => {
 		fetchClientById(id)
@@ -39,7 +42,7 @@ export const Atualizar = () => {
 		ClientService.getById(id, token).then((response) => {
 			const client = response.data.data
 			setClient({ ...client, birthDate: dateFns.parse(client.birthDate, 'yyyy-MM-dd') })
-			setList(client.adresses)
+			setAdresses(client.adresses)
 		})
 	}
 
@@ -48,9 +51,13 @@ export const Atualizar = () => {
 			return navigate('/inicio')
 		}
 
+		const clientUpdate = {
+			...client, adresses: adresses, birthDate: dateFns.formatByString(new Date(client.birthDate), 'yyyy-MM-dd')
+		}
 		const token = localStorage.getItem("authToken")
-		ClientService.update(id, { ...client, adresses: list, birthDate: dateFns.formatByString(new Date(client.birthDate), 'yyyy-MM-dd') }, token)
-			.then((response) => {
+
+		ClientService.update(id, clientUpdate, token)
+			.then(() => {
 				toast.success("Cliente atualizado com sucesso!")
 				navigate('/inicio')
 			}).catch((error) => {
@@ -72,7 +79,7 @@ export const Atualizar = () => {
 
 			<Box component="form" sx={{ boxShadow: '0px 0px 0px 2px rgba(0,0,0,.09)', backgroundColor: '#fff', padding: '2rem', borderRadius: '.5rem' }} >
 				<Grid container spacing={1}>
-					<Grid item md={6} sm={12}>
+					<Grid item xs={12} md={6}>
 						<FormControl fullWidth sx={{ m: 1 }}>
 							<InputLabel htmlFor="outlined-adornment-amount">Nome</InputLabel>
 							<OutlinedInput
@@ -84,7 +91,7 @@ export const Atualizar = () => {
 						</FormControl>
 
 					</Grid>
-					<Grid item md={6} sm={12}>
+					<Grid item xs={12} md={6}>
 						<FormControl fullWidth sx={{ m: 1 }}>
 							<InputLabel htmlFor="outlined-adornment-amount">Sobrenome</InputLabel>
 							<OutlinedInput
@@ -105,6 +112,7 @@ export const Atualizar = () => {
 						label="CPF"
 						value={client.cpf}
 						onChange={(event) => setClient({ ...client, cpf: event.target.value })}
+						inputComponent={CPFMask as any}
 					/>
 				</FormControl>
 
@@ -120,10 +128,10 @@ export const Atualizar = () => {
 					renderInput={(params: any) => <TextField fullWidth sx={{ m: 1, mt: 1.5 }} {...params} />}
 				/>
 
-				<AddressFormGroup adresses={list} removeAddress={(id) => {
-					const newList = list.filter((_, index) => index !== id)
-					setList(newList)
-				}} addAddress={(address: any) => setList([...list, address])} />
+				<AddressFormGroup adresses={adresses} removeAddress={(id) => {
+					const newList = adresses.filter((_, index) => index !== id)
+					setAdresses(newList)
+				}} addAddress={(address: any) => setAdresses([...adresses, address])} />
 
 				<Box sx={{ m: 1, display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
 					<Button sx={{ m: 1 }} size='large' variant="contained" color={'success'} className="btn" type="button" onClick={handleSubmit}>

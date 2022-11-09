@@ -6,12 +6,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
-import { Client } from '../../types/client';
-import { dashOnNull } from '../../utils/dashOnNull';
-import { formatDate } from '../../utils/formatDate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Tooltip } from '@mui/material';
+
+import { Client } from '../../types/client';
+import { dashOnNull } from '../../utils/dashOnNull';
+import { formatDate } from '../../utils/formatDate';
 
 type CTableProps = {
   clients: Client[],
@@ -59,8 +60,6 @@ export function CTable({ clients, remove, view, update }: CTableProps) {
             </TableCell>
           </TableRow>
         )) : <TableRow><TableCell colSpan={5} align="center">Nenhum cliente cadastrado</TableCell></TableRow>}
-
-
       </TableBody>
     </Table>
   </TableContainer>

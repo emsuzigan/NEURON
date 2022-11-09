@@ -1,8 +1,8 @@
-import { axiosInstace } from "../core/axiosInstance";
+import { axiosInstace } from "../api/axiosInstance";
 import { Client } from "../types/client";
 
 export const ClientService = {
-  getById: (id: any,  token: string | null ) => {
+  getById: (id: any, token: string | null) => {
     return axiosInstace.get(`/clientes/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { forwardRef } from 'react';
 import { IMaskInput } from 'react-imask';
 
 interface CustomProps {
@@ -6,7 +6,7 @@ interface CustomProps {
   name: string;
 }
 
-export const CPFMask = React.forwardRef<HTMLElement, CustomProps>(
+export const CPFMask = forwardRef<HTMLElement, CustomProps>(
   function TextMaskCustom(props, ref: any) {
     const { onChange, ...other } = props;
     return (
