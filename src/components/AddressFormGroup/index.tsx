@@ -1,5 +1,7 @@
 import { Button, FormControl, Grid, InputLabel, OutlinedInput } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { Address } from "../../types/address";
 import { AddressItem } from "./AddressItem";
 
@@ -24,32 +26,52 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
     return (address.city === "" || address.street === "" || address.zipCode === "" || address.neighborhood === "")
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = () => {
     addAddress(address);
     setAddress(initialState)
   };
+
+  const getAddressByCep = async (event: any) => {
+    if (address.zipCode.length < 8 || address.zipCode === null) {
+      return
+    }
+
+    axios.get(`https://viacep.com.br/ws/${address.zipCode}/json/`).then(({ data }) => {
+      const { bairro: neighborhood, localidade: city, logradouro: street } = data
+
+      setAddress({
+        ...address,
+        neighborhood,
+        city, street
+      })
+
+    }).catch((error) => {
+      toast.warn("Não foi possivel encontrar endereço com esse CEP")
+    })
+  }
 
 
   return (
     <div>
       <Grid sx={{ mt: 2 }} container spacing={1}>
-        <Grid item md={12} sm={12}>
+        <Grid item xs={12}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">CEP</InputLabel>
+            <InputLabel htmlFor="cep">CEP</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="cep"
               label="CEP"
               defaultValue={""}
-              value={address.zipCode }
+              onBlur={getAddressByCep}
+              value={address.zipCode}
               onChange={(event) => setAddress({ ...address, zipCode: event.target.value })}
             />
           </FormControl>
         </Grid>
-        <Grid item md={8} sm={8}>
+        <Grid item xs={8}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Rua</InputLabel>
+            <InputLabel htmlFor="street">Rua</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="street"
               label="Rua"
               defaultValue={""}
               value={address.street}
@@ -58,11 +80,11 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
           </FormControl>
         </Grid>
 
-        <Grid item md={4} sm={4}>
+        <Grid item xs={4}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Número</InputLabel>
+            <InputLabel htmlFor="number">Número</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="number"
               label="Número"
               defaultValue={""}
               value={address.number}
@@ -71,24 +93,24 @@ export function AddressFormGroup({ adresses, addAddress, removeAddress }: Addres
           </FormControl>
         </Grid>
 
-        <Grid item md={6} sm={12}>
+        <Grid item xs={12} md={6}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Bairro</InputLabel>
+            <InputLabel htmlFor="neighborhood">Bairro</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="neighborhood"
               label="Bairro"
               defaultValue={""}
-              value={address.neighborhood }
+              value={address.neighborhood}
               onChange={(event) => setAddress({ ...address, neighborhood: event.target.value })}
             />
           </FormControl>
         </Grid>
 
-        <Grid item md={6} sm={12}>
+        <Grid item xs={12} md={6}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Cidade</InputLabel>
+            <InputLabel htmlFor="city">Cidade</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
+              id="city"
               label="Cidade"
               defaultValue={""}
               value={address.city}

@@ -1,19 +1,21 @@
-import { Button, Container, Box, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Button, Container, Box, Skeleton } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 import { ClientService } from "../../services/ClientService";
 import { Client } from "../../types/client";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useNavigate } from "react-router-dom";
 import { CTable } from "../../components/CTable";
 import { CDialog } from "../../components/CDialog";
-import { toast } from "react-toastify";
 
 export const Home = () => {
   const navigate = useNavigate();
   const [dialog, setDialog] = useState(false);
   const [clients, setClients] = useState<Client[]>([]);
   const [clientSelected, setClientSelected] = useState<number | null>();
-  const [loading, isLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchClients();
@@ -37,27 +39,24 @@ export const Home = () => {
     setClientSelected(null)
   };
 
-
-
   async function fetchClients() {
+    setLoading(true)
     const token = localStorage.getItem("authToken")
 
     ClientService.list(token)
       .then((response) => {
-        isLoading(false)
+        setLoading(false)
         setClients(response.data.data);
       })
       .catch((error: any) => {
         toast("Erro interno.");
-
+        setLoading(false)
       })
   }
-
 
   function view(id: number) {
     navigate(`/visualizar/${id}`)
   }
-
 
   function update(id: number) {
     navigate(`/atualizar/${id}`)
@@ -83,8 +82,6 @@ export const Home = () => {
         open={dialog}
         onClose={closeDialog}
       />
-
-
     </Container>
   );
 }

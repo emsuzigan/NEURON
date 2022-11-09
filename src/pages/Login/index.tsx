@@ -1,9 +1,11 @@
-import { Alert } from "@mui/material";
 import { useContext, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
+
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import './style.css';
 import { toast } from 'react-toastify';
+import './style.css';
 
 export const Login = () => {
   const auth = useContext(AuthContext);
